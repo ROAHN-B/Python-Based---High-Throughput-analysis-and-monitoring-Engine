@@ -3,7 +3,9 @@ from dask.distributed import LocalCluster, Client
 
 
 def start_dask():
-    cluster = LocalCluster(n_workers=2, thread_per_workers=3, memory_limit=2)
+    cluster = LocalCluster(
+        n_workers=2, thread_per_workers=2, memory_limit="1GB", dashboard_address=":8790"
+    )
     return Client(cluster)
 
 
@@ -13,3 +15,6 @@ def start_dask():
 # Threads per worker if n_workers = 2 , then task will be 2X2
 # memory limit---> "1GB" works when data is greater than 10 TB
 # Send task to worler with the help of client and process easily.
+# LocalCluster --> create workers + schedule it, but client --> connect code with dask
+# LocalCluster --> Infracture
+# Client() --> Interface

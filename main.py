@@ -3,7 +3,6 @@
 # Table headings timestamp, log_level, module, message
 from config.dask_config import start_dask
 
-if __name__="__main__":
-    client = start_dask
-    print(client)
-
+if __name__ == "__main__":
+    Client = start_dask()
+    print(Client)
