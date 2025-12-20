@@ -6,3 +6,4 @@ from config.dask_config import start_dask
 if __name__ == "__main__":
     Client = start_dask()
     print(Client)
+    input()
