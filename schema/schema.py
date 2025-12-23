@@ -4,5 +4,3 @@ LOG_SCHEMA = {
     "service_level": "string",
     "message": "string",
 }
-
-astype(LOG_SCHEMA)
