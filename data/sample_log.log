@@ -1,6 +1,2 @@
-raw data into structures data
-parsing -> translating [converts raw data into structured data]
-
-
-
-
+2025-12-23 18:30:45,INFO,auth_service,User john_doe successfully logged in from IP 192.168.1.100
+2025-12-23 18:31:12,ERROR,database_service,Failed to connect to database: connection timeout after 30 seconds
