@@ -1,2 +1,7 @@
-2025-12-23 18:30:45,INFO,auth_service,User john_doe successfully logged in from IP 192.168.1.100
-2025-12-23 18:31:12,ERROR,database_service,Failed to connect to database: connection timeout after 30 seconds
+2025-12-23 18:30:45,INFO,auth_service,User login successful
+2025-12-23 18:31:12,ERROR,database_service,Connection timeout
+2025-12-23 18:31:15,INFO,auth_service,User logout
+2025-12-23 18:32:01,WARNING,api_gateway,Rate limit exceeded
+2025-12-23 18:32:30,DEBUG,monitoring,Memory usage normal
+2025-12-23 18:33:00,INFO,backup_service,Backup completed
+2025-12-23 18:33:45,ERROR,file_service,Permission denied
