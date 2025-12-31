@@ -1,4 +1,4 @@
-import dask.datasets as dd
+import dask.dataframe as dd
 from ingestion.loader import load_logs
 from ingestion.parser import parse_log_line
 
@@ -15,3 +15,5 @@ def build_pipeline(file_path):
         "message": "object",
     }
     df = parsed.to_dataframe(meta=meta)
+    df["timestamp"] = dd.to_datetime(df["timestamp"])
+    return df
