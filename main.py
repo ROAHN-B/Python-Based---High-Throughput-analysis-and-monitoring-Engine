@@ -1,7 +1,9 @@
 from config.dask_config import start_dask
 from ingestion.loader import load_logs
 from ingestion.parser import parse_log_line
+from processing.pipeline import build_pipeline
 import time
+import dask.dataframe as df
 
 
 def main():
@@ -10,26 +12,18 @@ def main():
     print(f"Dashboard link: {client.dashboard_link}")
     print("\n" + "=" * 50)
 
-    bag = load_logs("data/sample_log.log")
-    parsed = bag.map(parse_log_line).filter(lambda x: x is not None)
+    start = time.time()
+    log_df = build_pipeline("data/sample_log.log")
+    print("start time:", start)
 
-    result = parsed.compute()
-    print("\nParsed Logs:")
-    for log in result:
-        print(log)
+    total_logs = log_df.count().compute()
+    end = time.time()
 
-    print("\n" + "=" * 50)
-    print("Dashboard is running at: http://127.0.0.1:8790/status")
-    print("Press Ctrl+C to exit...")
-    print("=" * 50)
+    print("Total logs parsed:\n", total_logs)
 
-    # Keep the script running so dashboard stays active
-    try:
-        while True:
-            time.sleep(1)
-    except KeyboardInterrupt:
-        print("\n\nShutting down Dask cluster...")
-        client.close()
+    print("time taken: ", end)
+
+    input("Press enter...")
 
 
 if __name__ == "__main__":
