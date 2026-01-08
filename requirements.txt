@@ -1,3 +1,4 @@
 dask[dataframe]
 pandas
 dask[distributed]
+secure-smtplib
