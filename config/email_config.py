@@ -18,12 +18,15 @@ from email.mime.text import MIMEText
 # server.quit()
 
 
-def sending_mail(sender, receiver, subject):
-    message = MIMEText("sending mail using python")
+def send_mail(sender, receiver, subject):
+    message = MIMEText(
+        "Anomaly detected in your system, user login failed! and z-score > 5, please find the error and fix it ASAP!"
+    )
+    password = "auex mhqe squb szvs"
     message["subject"] = subject
     message["From"] = sender
     message["To"] = receiver
-    password = "auex mhqe squb szvs"
+
     server = smtplib.SMTP("smtp.gmail.com", 587)
     server.starttls()
     server.login(sender, password)
@@ -31,8 +34,17 @@ def sending_mail(sender, receiver, subject):
     server.quit()
 
 
-sending_mail(
+send_mail(
     "rohanbelsare113@gmail.com",
     "rohanbelsare113@gmail.com",
-    "sending mail using python",
+    "WARNING: ANOMALY DETECTED!",
 )
+
+#
+# when anomaly is detected and z-score is greater than 4 and less than -3
+# @router("/webhook/anomaly/detected/alert")
+# def anomaly_detected():
+#  z-score
+#  if (z-score>=4 && z-score<=-3):
+#      send_mail()
+#      z-score=[0.25,0.36,1.25,3.56,5.45]
