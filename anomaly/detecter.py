@@ -56,5 +56,3 @@ def detect_aomaly(log_df, z_threshold=3):
 
     return error_counts[error_counts["is_anomaly"]]
 
-#task1- factorial or a number
-#rask2- find the prime number 
