@@ -17,7 +17,8 @@ def main():
     print("\n" + "=" * 50)
 
     start = time.time()
-    log_df = build_pipeline("data/sample_log.log")
+    log_df = build_pipeline(r"data\sample_log.log")
+    print(log_df.tail())
     print("start time:", start)
 
     total_logs = log_df.count().compute()
