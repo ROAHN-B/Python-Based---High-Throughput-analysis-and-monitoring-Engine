@@ -14,6 +14,7 @@ def start_dask():
 # raw data ->[covnvert unstructure data into structure data] -> structured data
 # parsing -> Translating
 # LocalCluster is a mini distributed cluser in your system, helps to run dask, as were running on mutiple systems.
+#local cluster is used by developer in testing phase.
 # n_workers = 2
 # threads_per_worker = 2
 

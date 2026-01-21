@@ -4,10 +4,11 @@ from ingestion.parser import parse_log_line
 from processing.pipeline import build_pipeline
 import time
 import dask.dataframe as df
-from anomaly.detecter import detect_aomaly
+from anomaly.detecter import detect_anomaly
 from config.email_config import send_mail
 
-user_mail="rohanbelsare113@gmail.com"
+user_mail = "rohanbelsare113@gmail.com"
+
 
 def main():
     client = start_dask()
@@ -23,33 +24,38 @@ def main():
     end = time.time()
 
     print("Running Anomaly detection...")
-    anomalies_df=detect_aomaly(log_df)
+    anomalies_df = detect_anomaly(log_df)
 
-    anomalies=anomalies_df.compute()
+    # anomalies = anomalies_df.compute()
+    anomalies = anomalies_df
 
     if anomalies.empty:
-        print("No anomalies detected!!")
+        print("No anomalies detected")
     else:
-        print(f"{len(anomalies)} anomalies detected!!")
-    
-    for _, row in anomalies.iterrows():
-        anomaly_data={
-            "timestamp":row["timestamp"],
-            "error_count":row["error_count"],
-            "z_score":row["z_score"]
-        }
-        send_mail(
-            to_mail=user_mail,
-            anomaly=anomaly_data
-        )
+        print(f"🚨 {len(anomalies)} anomalies detected!")
 
-    print("Alert sent!!")
-    print("Total logs parsed:\n", total_logs)
+        for _, row in anomalies.iterrows():
+            anomaly_data = {
+                "timestamp": row["timestamp"],
+                "error_count": row["error_count"],
+                "z_score": row["z_score"],
+            }
 
-    print("time taken: ", end)
+            send_mail(to_email=user_mail, anomaly=anomaly_data)
 
-    input("Press enter...")
+            print(
+                f"📧 Alert sent | Time: {row['timestamp']} | "
+                f"Errors: {row['error_count']}"
+            )
+
+    input("\nPress Enter to exit...")
 
 
 if __name__ == "__main__":
     main()
+
+"""
+what is streamlit? and why?
+Parquet
+what are metrics in stream lit
+"""

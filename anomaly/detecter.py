@@ -32,27 +32,27 @@ step 7 : return anamoly"""
 
 import dask.dataframe as dd
 
-def detect_aomaly(log_df, z_threshold=3):
-    # log_df=["timestamp","level","service","message"]
+
+def detect_anomaly(log_df, z_threshold=3):
+    # Filter ERROR logs
     error_logs = log_df[log_df["level"] == "ERROR"]
 
-    error_counts = (
-        error_logs.set_index("timestamp")
-        .resample("1T")
-        .size()
-        .rename("error_count")
-        .reset_index
-    )
+    # IMPORTANT: set index with sorted=True
+    error_pd = error_logs.compute().sort_values("timestamp").set_index("timestamp")
 
-    # calculate mean and standard deviation for error_counts
-    mean = error_counts["error_counts"].mean().compute()
-    std_dev = error_counts["error_counts"].std().compute()
+    # Resample safely
+    error_counts = error_pd.resample("1min").size().rename("error_count").reset_index()
 
-    # calculate z-score
-    error_counts["z_score"] = (error_counts["error_count"] - mean) / std_dev
+    # Compute statistics
+    mean = error_counts["error_count"].mean().compute()
+    std = error_counts["error_count"].std().compute()
 
-    # Flag Anomalies
+    if std == 0:
+        return error_counts.head(0)
+
+    error_counts["z_score"] = (error_counts["error_count"] - mean) / std
     error_counts["is_anomaly"] = error_counts["z_score"].abs() > z_threshold
 
     return error_counts[error_counts["is_anomaly"]]
+
 

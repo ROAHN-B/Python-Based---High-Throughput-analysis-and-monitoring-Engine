@@ -9,7 +9,7 @@ def build_pipeline(file_path):
 
     parsed = bag.map(parse_log_line).filter(lambda x: x is not None)
 
-    meta = {
+    meta = {                    # for browser understanding (JSON data)
         "timestamp": "object",
         "level": "object",
         "service": "object",
