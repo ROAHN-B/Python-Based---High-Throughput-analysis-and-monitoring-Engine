@@ -1,7 +1,7 @@
 import mysql.connector
 from mysql.connector import Error
 
-def get_sql():
+def connect_sql():
     try:
         connection = mysql.connector.connect(
         host="localhost",
@@ -19,5 +19,5 @@ def get_sql():
     except Error as e:
         return (f"Error: {e}")
 
-get_sql()
+connect_sql()
         
