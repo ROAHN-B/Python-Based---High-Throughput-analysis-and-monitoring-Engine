@@ -17,7 +17,7 @@ def create_user(name,age,email):
         return {"Message":"User added to database succesfully"}
     except Error as e:
         print("Error : ", e)
-#create_user("Rohan",20,"rohanbelsare113@gmail.com")
+
 
 @router.get("/get/user/info")
 def get_user(id):
