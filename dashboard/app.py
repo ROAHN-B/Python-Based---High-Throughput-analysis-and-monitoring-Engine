@@ -1,6 +1,6 @@
 import streamlit as st
-from processing.pipeline import build_pipeline
-from anomaly.detecter import detect_anomaly
+from backend.processing.pipeline import build_pipeline
+from backend.anomaly.detecter import detect_anomaly
 import plotly as px
 
 
