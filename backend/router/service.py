@@ -1,16 +1,22 @@
 from backend.config.sql_config import connect_sql
 from mysql.connector import Error
 from fastapi import APIRouter
+from pydantic import BaseModel
+
+class UserCreate(BaseModel):
+    email: str
+    password: str
+
 
 router = APIRouter()
 
 @router.post("/create/user") #API end point
-def create_user(name,age,email):
+def create_user(User:UserCreate):
     try:
         db=connect_sql()
         cursor = db.cursor(dictionary=True)
-        query = "insert into usertable (name,age,email) values(%s,%s,%s)"
-        cursor.execute(query,(name,age,email))
+        query = "insert into credentials (name,age,email) values(%s,%s)"
+        cursor.execute(query,(User.password,User.email))
         db.commit()
         cursor.close()
         db.close()
@@ -23,7 +29,7 @@ def create_user(name,age,email):
 def get_user(id):
     db=connect_sql()
     cursor=db.cursor(dictionary=True)
-    query="select name,age,email from usertable where id = %s "
+    query="select name,age,email from credentials where id = %s "
     cursor.execute(query,(id,))
     user=cursor.fetchone()
     db.close()
@@ -31,11 +37,11 @@ def get_user(id):
     return {"message":"USer found!!","data":user}
 
 @router.put("/update/user")
-def update_user(id,name,age,email):
+def update_user(new_user:create_user):
     db=connect_sql()
     cursor=db.cursor(dictionary=True)
-    query="update usertable set name=%s,age=%s,email=%s where id=%s"
-    cursor.execute(query,(name,age,email,id))
+    query="update credentials set name=%s,age=%s,email=%s where id=%s"
+    cursor.execute(query,(new_user.email,new_user.password))
     db.commit()
     db.close()
     cursor.close()
@@ -45,7 +51,7 @@ def update_user(id,name,age,email):
 def delete_user(id):
     db=connect_sql()
     cursor=db.cursor(dictionary=True)
-    query="delete from  usertable where id=%s"
+    query="delete from  credentials where id=%s"
     cursor.execute(query,(id,))
     db.commit()
     cursor.close()
